@@ -1,0 +1,7 @@
+{
+  "name": "@opentuner/api",
+  "version": "0.1.0",
+  "tasks": {
+    "dev": "deno run -A --unstable-net main.ts"
+  }
+}

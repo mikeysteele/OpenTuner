@@ -1,0 +1,21 @@
+{
+  "name": "@opentuner/web",
+  "version": "0.1.0",
+  "tasks": {
+    "dev": "deno run -A --node-modules-dir npm:vite dev",
+    "build": "deno run -A --node-modules-dir npm:vite build",
+    "preview": "deno run -A --node-modules-dir npm:vite preview"
+  },
+  "imports": {
+    "vite": "npm:vite@^5.0.0",
+    "@fluentui/web-components": "npm:@fluentui/web-components@^2.5.16",
+    "@microsoft/fast-element": "npm:@microsoft/fast-element@^1.12.0",
+    "hls.js": "npm:hls.js@^1.5.0"
+  },
+  "compilerOptions": {
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false
+  }
+}

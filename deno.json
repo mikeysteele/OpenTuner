@@ -1,0 +1,28 @@
+{
+  "workspace": [
+    "./apps/api",
+    "./apps/web",
+    "./packages/server-core"
+  ],
+  "tasks": {
+    "check": "deno fmt --check && deno lint && deno test",
+    "fix": "deno fmt && deno lint --fix",
+    "test": "deno test --allow-net --allow-read",
+    "dev:api": "cd apps/api && deno task dev",
+    "dev:web": "cd apps/web && deno task dev",
+    "start": "deno task dev:api & deno task dev:web"
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": true,
+    "proseWrap": "preserve"
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["explicit-function-return-type", "no-explicit-any"]
+    }
+  }
+}

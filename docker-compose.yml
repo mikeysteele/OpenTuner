@@ -1,0 +1,27 @@
+services:
+  # Backend API Service
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: opentuner-api
+    restart: unless-stopped
+    # Expose 8000 internally (and optionally to host for debugging)
+    ports:
+      - "8000:8000"
+    environment:
+      - DENO_ENV=production
+
+  # Frontend Web Service + Reverse Proxy
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: opentuner-web
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+      # Expose 5173 only if we were doing dev, but this is prod build.
+      # - "443:443" # Uncomment if configuring SSL in nginx
