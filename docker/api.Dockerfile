@@ -1,4 +1,4 @@
-FROM denoland/deno:2.0.0
+FROM docker.io/denoland/deno:2.6.1
 
 # Install FFMPEG for transcoding/stream management
 # The denoland/deno image is typically based on Debian/Ubuntu
@@ -6,11 +6,14 @@ RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy the entire monorepo to ensure shared packages are available
-COPY . .
+# Switch to non-root user
+USER deno
 
-# Cache dependencies for the API
-RUN deno cache apps/api/main.ts
+# Copy the entire monorepo to ensure shared packages are available
+COPY --chown=deno:deno . .
+
+# Install dependencies
+RUN deno install
 
 # Expose API port
 EXPOSE 8000

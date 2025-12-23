@@ -1,27 +1,39 @@
 services:
   # Backend API Service
   api:
+    image: ${REGISTRY:-localhost}/opentuner-api:${TAG:-latest}
     build:
       context: .
-      dockerfile: apps/api/Dockerfile
+      dockerfile: docker/api.Dockerfile
     container_name: opentuner-api
     restart: unless-stopped
-    # Expose 8000 internally (and optionally to host for debugging)
     ports:
       - "8000:8000"
     environment:
       - DENO_ENV=production
 
-  # Frontend Web Service + Reverse Proxy
+  # Frontend Web Service (Static Only)
   web:
+    image: ${REGISTRY:-localhost}/opentuner-web:${TAG:-latest}
     build:
       context: .
-      dockerfile: apps/web/Dockerfile
+      dockerfile: docker/web.Dockerfile
     container_name: opentuner-web
     restart: unless-stopped
     depends_on:
       - api
+    # No ports exposed directly, traffic comes via Ingress
+
+    # HAProxy Ingress
+  ingress:
+    image: ${REGISTRY:-localhost}/opentuner-ingress:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: docker/ingress.Dockerfile
+    container_name: opentuner-ingress
+    restart: unless-stopped
     ports:
-      - "80:80"
-      # Expose 5173 only if we were doing dev, but this is prod build.
-      # - "443:443" # Uncomment if configuring SSL in nginx
+      - "8080:8080"
+    depends_on:
+      - api
+      - web
