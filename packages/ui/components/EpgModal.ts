@@ -1,7 +1,7 @@
 import { css, customElement, FASTElement, html, observable, repeat, when, attr } from '@microsoft/fast-element';
 import type { Channel, Program } from '../types.ts';
 
-const template = html<EpgModal>`
+const template = html<EpgModalComponent>`
   <div class="modal-overlay" @click="${(x) => x.close()}">
     <div class="modal-content" @click="${(x, c) => c.event.stopPropagation()}">
       <div class="modal-header">
@@ -49,7 +49,7 @@ const styles = css`
   }
 
   .modal-content {
-    background: var(--modal-bg);
+    background: var(--modal-bg, #2d2d2d);
     width: 600px;
     max-width: 90%;
     height: 80vh;
@@ -57,22 +57,22 @@ const styles = css`
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color, #444);
   }
 
   .modal-header {
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color, #444);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--sidebar-bg);
+    background: var(--sidebar-bg, #202020);
     border-radius: 12px 12px 0 0;
   }
 
   .modal-header h3 { 
       margin: 0; 
-      color: var(--text-primary);
+      color: var(--text-primary, white);
   }
 
   .epg-list {
@@ -84,20 +84,20 @@ const styles = css`
   .loading, .empty {
       text-align: center;
       padding: 2rem;
-      color: var(--text-secondary);
+      color: var(--text-secondary, #9ca3af);
   }
 
   .epg-item {
-    background: var(--card-bg);
+    background: var(--card-bg, #363636);
     padding: 12px;
     margin-bottom: 8px;
     border-radius: 6px;
-    border-left: 3px solid var(--accent-color);
+    border-left: 3px solid var(--accent-color, #818cf8);
   }
 
   .epg-time {
     font-size: 0.8rem;
-    color: var(--accent-color);
+    color: var(--accent-color, #818cf8);
     font-weight: 600;
     margin-bottom: 4px;
     display: block;
@@ -111,22 +111,22 @@ const styles = css`
   .epg-title {
     font-weight: 600;
     font-size: 1rem;
-    color: var(--text-primary);
+    color: var(--text-primary, white);
   }
 
   .epg-subtitle {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-secondary, #9ca3af);
     margin-top: 2px;
   }
 `;
 
 @customElement({
-  name: 'app-epg-modal',
+  name: 'ui-epg-modal',
   template,
   styles,
 })
-export class EpgModal extends FASTElement {
+export class EpgModalComponent extends FASTElement {
   @observable channel: Channel | null = null;
   @observable programs: Program[] = [];
   @attr({ mode: 'boolean' }) loading: boolean = false;

@@ -1,25 +1,21 @@
 import { css, customElement, FASTElement, html, observable, repeat, ref } from '@microsoft/fast-element';
-import { NotificationComponent } from '@opentuner/ui';
+import '@opentuner/ui/header';
+import '@opentuner/ui/notification';
+import type { NotificationComponent } from '@opentuner/ui/notification';
+import type { Channel } from '@opentuner/ui/types';
 
 interface AppConfig {
     m3uUrl?: string;
     hiddenChannels: string[];
 }
 
-interface Channel {
-    GuideNumber: string;
-    GuideName: string;
-    URL: string;
-}
-
 const template = html<AdminApp>`
   <div class="container">
-    <header>
-      <h1>OpenTuner Admin</h1>
-      <div class="status">
-          Config Status: ${x => x.configLoaded ? 'Loaded' : 'Loading...'}
-      </div>
-    </header>
+    <ui-header title="OpenTuner Admin">
+        <div slot="end" class="status">
+            Config Status: ${x => x.configLoaded ? 'Loaded' : 'Loading...'}
+        </div>
+    </ui-header>
 
     <main>
       <section class="card settings">
@@ -69,15 +65,10 @@ const styles = css`
   .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 0;
   }
-  header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 20px;
+  ui-header {
+      margin-bottom: 20px;
   }
   .card {
       background: #2d2d2d;

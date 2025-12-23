@@ -1,5 +1,5 @@
 import { css, customElement, FASTElement, html, repeat, observable } from '@microsoft/fast-element';
-import type { Channel } from '../types.ts';
+import type { Channel } from '@opentuner/ui';
 
 const template = html<ChannelList>`
   <div class="search-box">

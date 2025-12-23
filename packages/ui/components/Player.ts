@@ -2,7 +2,7 @@ import { css, customElement, FASTElement, html, observable } from '@microsoft/fa
 import Hls from 'hls.js';
 import type { Channel } from '../types.ts';
 
-const template = html<Player>`
+const template = html<PlayerComponent>`
   ${(x) =>
     x.channel
       ? html`
@@ -18,7 +18,7 @@ const template = html<Player>`
           <div class="placeholder-icon">📺</div>
           <p>Select a channel to start watching</p>
         </div>
-      `}
+        `}
 `;
 
 const styles = css`
@@ -26,7 +26,7 @@ const styles = css`
     display: flex;
     flex-direction: column;
     flex: 1;
-    background: black;
+    background: var(--bg-color);
     position: relative;
     height: 100%;
     width: 100%;
@@ -88,11 +88,11 @@ const styles = css`
 `;
 
 @customElement({
-  name: 'app-player',
+  name: 'ui-player',
   template,
   styles,
 })
-export class Player extends FASTElement {
+export class PlayerComponent extends FASTElement {
   @observable channel: Channel | null = null;
   private hls: Hls | null = null;
   private video: HTMLVideoElement | null = null;

@@ -1,9 +1,10 @@
-import { css, customElement, FASTElement, html, observable, when } from '@microsoft/fast-element';
-import type { Channel, Program } from './types.ts';
-import './components/Header.ts';
+import { css, customElement, FASTElement, html, observable, ref, when } from '@microsoft/fast-element';
+import '@opentuner/ui/header.ts';
+import '@opentuner/ui/player.ts';
+import '@opentuner/ui/epg-modal.ts';
+import '@opentuner/ui/notification.ts';
+import type { Channel, Program } from '@opentuner/ui/types.ts';
 import './components/ChannelList.ts';
-import './components/Player.ts';
-import './components/EpgModal.ts';
 
 const template = html<OpenTunerApp>`
   <app-header 
@@ -103,6 +104,7 @@ export class OpenTunerApp extends FASTElement {
   @observable epgLoading = false;
 
   private isFetching = false;
+  private refreshInterval: number | undefined;
 
   override async connectedCallback(): Promise<void> {
     super.connectedCallback();
@@ -110,6 +112,18 @@ export class OpenTunerApp extends FASTElement {
     if (!this.isFetching) {
       await this.fetchLineup();
     }
+    
+    // Poll for EPG updates every 5 minutes
+    this.refreshInterval = setInterval(() => {
+        this.fetchLineup();
+    }, 300000);
+  }
+
+  override disconnectedCallback(): void {
+      super.disconnectedCallback();
+      if (this.refreshInterval) {
+          clearInterval(this.refreshInterval);
+      }
   }
   
   loadTheme() {
@@ -139,7 +153,7 @@ export class OpenTunerApp extends FASTElement {
     this.isFetching = true;
 
     try {
-      this.status = 'Loading...';
+      if (!this.channels.length) this.status = 'Loading...'; 
       const res = await fetch('/lineup.json');
       if (!res.ok) throw new Error('Failed to load lineup');
       const data = await res.json();

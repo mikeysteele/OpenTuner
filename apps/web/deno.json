@@ -8,14 +8,23 @@
   },
   "imports": {
     "vite": "npm:vite@^5.0.0",
+    "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.6",
+    "@opentuner/ui": "../../packages/ui/mod.ts",
+    "@opentuner/ui/": "../../packages/ui/",
+    "@opentuner/config": "../../packages/config/mod.ts",
     "@fluentui/web-components": "npm:@fluentui/web-components@^2.5.16",
     "@microsoft/fast-element": "npm:@microsoft/fast-element@^1.12.0",
     "hls.js": "npm:hls.js@^1.5.0"
   },
   "compilerOptions": {
-    "lib": ["esnext", "dom", "dom.iterable"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "useDefineForClassFields": false
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "deno.window",
+      "deno.unstable",
+      "node"
+    ] 
   }
 }

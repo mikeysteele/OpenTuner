@@ -1,16 +1,4 @@
-import {
-  fluentButton,
-  fluentCard,
-  fluentDivider,
-  fluentTextField,
-  provideFluentDesignSystem,
-} from '@fluentui/web-components';
+import { initializeTheme } from '@opentuner/ui/theme.ts';
 import './app.ts';
 
-provideFluentDesignSystem()
-  .register(
-    fluentCard(),
-    fluentButton(),
-    fluentTextField(),
-    fluentDivider(),
-  );
+initializeTheme();
